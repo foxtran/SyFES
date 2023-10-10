@@ -1,6 +1,6 @@
 # Evolving Symbolic Density Functionals
 
-! Original code can be found at the following link: [https://github.com/google-research/google-research/tree/master/symbolic_functionals](https://github.com/google-research/google-research/tree/master/symbolic_functionals)
+> :warning: Original code can be found at the following link: [https://github.com/google-research/google-research/tree/master/symbolic_functionals](https://github.com/google-research/google-research/tree/master/symbolic_functionals)
 
 This directory contains demonstration of GAS22 functional from paper
 "Evolving Symbolic Density Functionals" (https://arxiv.org/abs/2203.02540)
