@@ -22,7 +22,7 @@ import jax
 import numpy as np
 import sympy
 
-from symbolic_functionals.syfes.symbolic import instructions
+from syfes.symbolic import instructions
 
 jax.config.update('jax_enable_x64', True)
 
