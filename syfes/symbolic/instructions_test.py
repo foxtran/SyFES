@@ -23,7 +23,6 @@ import numpy as np
 import sympy
 
 from symbolic_functionals.syfes.symbolic import instructions
-from symbolic_functionals.syfes.xc import gga
 
 jax.config.update('jax_enable_x64', True)
 
@@ -160,66 +159,6 @@ class InstructionTest(parameterized.TestCase):
     instructions.UTransformInstruction('output', 'x').apply(workspace)
     self.assertAlmostEqual(workspace['output'], expected_y)
 
-  @parameterized.parameters(False, True)
-  def test_pbex_instruction(self, use_jax):
-    workspace = {
-        'x': np.random.rand(5),
-        'kappa_pbex': np.random.rand(),
-        'mu_pbex': np.random.rand()}
-
-    instructions.PBEXInstruction('output', 'x').apply(
-        workspace, use_jax=use_jax)
-
-    np.testing.assert_allclose(
-        workspace.pop('output'), gga.f_x_pbe(
-            **{key.partition('_')[0]: value for key, value in workspace.items()
-               }))
-
-  @parameterized.parameters(False, True)
-  def test_rpbex_instruction(self, use_jax):
-    workspace = {
-        'x': np.random.rand(5),
-        'kappa_rpbex': np.random.rand(),
-        'mu_rpbex': np.random.rand()}
-
-    instructions.RPBEXInstruction('output', 'x').apply(
-        workspace, use_jax=use_jax)
-
-    np.testing.assert_allclose(
-        workspace.pop('output'), gga.f_x_rpbe(
-            **{key.partition('_')[0]: value for key, value in workspace.items()
-               }))
-
-  @parameterized.parameters(False, True)
-  def test_b88_instruction(self, use_jax):
-    workspace = {
-        'x': np.random.rand(5),
-        'beta_b88x': np.random.rand()}
-
-    instructions.B88XInstruction('output', 'x').apply(
-        workspace, use_jax=use_jax)
-
-    np.testing.assert_allclose(
-        workspace.pop('output'), gga.f_x_b88(
-            **{key.partition('_')[0]: value for key, value in workspace.items()
-               }))
-
-  @parameterized.parameters(False, True)
-  def test_pbec_instruction(self, use_jax):
-    workspace = {
-        'rho': np.random.rand(5),
-        'sigma': np.random.rand(5),
-        'beta_pbec': np.random.rand(),
-        'gamma_pbec': np.random.rand()}
-
-    instructions.PBECInstruction('output', 'rho', 'sigma').apply(
-        workspace, use_jax=use_jax)
-
-    np.testing.assert_allclose(
-        workspace.pop('output'), gga.e_c_pbe_unpolarized(
-            **{key.partition('_')[0]: value for key, value in workspace.items()
-               }))
-
   # test conversion
   @parameterized.parameters(
       *instructions.Instruction.__subclasses__())
@@ -250,8 +189,6 @@ class InstructionTest(parameterized.TestCase):
   def test_is_binary_instruction_name(self):
     self.assertTrue(
         instructions.is_binary_instruction_name('MultiplicationInstruction'))
-    self.assertTrue(
-        instructions.is_binary_instruction_name('PBECInstruction'))
     self.assertFalse(
         instructions.is_binary_instruction_name('Additionby1Instruction'))
 

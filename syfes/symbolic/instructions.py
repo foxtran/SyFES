@@ -13,13 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Mathematic instructions as building blocks of density functionals."""
+"""Mathematic instructions as building blocks."""
 
 import abc
 import jax.numpy as jnp
 import numpy as onp
 import sympy
-from symbolic_functionals.syfes.xc import gga
 
 
 ################
@@ -369,13 +368,7 @@ class DivisionInstruction(Instruction):
 
 
 class UTransformInstruction(Instruction):
-  """Unary finite-domain transform y = gamma x / (1 + gamma x).
-
-  This transform was used to define quantity u in B97 form:
-    u = gamma * x^2 / (1 + gamma * x^2)
-  and quantity v in MN12 form:
-    v = omega * rho^(1/3) / (1 + omega * rho^(1/3))
-  """
+  """Unary finite-domain transform y = gamma x / (1 + gamma x)."""
   _num_inputs = 1
   _bound_parameters = ['gamma_utransform']
 
@@ -389,72 +382,6 @@ class UTransformInstruction(Instruction):
             f'{self._bound_parameters[0]})')
 
 
-class PBEXInstruction(Instruction):
-  """PBE exchange enhancement factor."""
-  _num_inputs = 1  # x
-  _bound_parameters = ['kappa_pbex', 'mu_pbex']
-
-  def apply(self, workspace, use_jax=True):
-    workspace[self.output] = gga.f_x_pbe(
-        x=workspace[self.inputs[0]],
-        kappa=workspace[self._bound_parameters[0]],
-        mu=workspace[self._bound_parameters[1]])
-
-  def __str__(self):
-    return (f'{self.output} = PBEXInstruction({self.inputs[0]}; '
-            f'{self._bound_parameters[0], self._bound_parameters[1]})')
-
-
-class RPBEXInstruction(Instruction):
-  """RPBE exchange enhancement factor."""
-  _num_inputs = 1  # x
-  _bound_parameters = ['kappa_rpbex', 'mu_rpbex']
-
-  def apply(self, workspace, use_jax=True):
-    workspace[self.output] = gga.f_x_rpbe(
-        x=workspace[self.inputs[0]],
-        kappa=workspace[self._bound_parameters[0]],
-        mu=workspace[self._bound_parameters[1]],
-        use_jax=use_jax)
-
-  def __str__(self):
-    return (f'{self.output} = RPBEXInstruction({self.inputs[0]}; '
-            f'{self._bound_parameters[0], self._bound_parameters[1]})')
-
-
-class B88XInstruction(Instruction):
-  """B88 exchange enhancement factor."""
-  _num_inputs = 1  # x
-  _bound_parameters = ['beta_b88x']
-
-  def apply(self, workspace, use_jax=True):
-    workspace[self.output] = gga.f_x_b88(
-        x=workspace[self.inputs[0]],
-        beta=workspace[self._bound_parameters[0]],
-        use_jax=use_jax)
-
-  def __str__(self):
-    return (f'{self.output} = B88XInstruction({self.inputs[0]}; '
-            f'{self._bound_parameters[0]})')
-
-
-class PBECInstruction(Instruction):
-  """PBE correlation energy density."""
-  _num_inputs = 2  # rho, sigma
-  _bound_parameters = ['beta_pbec', 'gamma_pbec']
-
-  def apply(self, workspace, use_jax=True):
-    workspace[self.output] = gga.e_c_pbe_unpolarized(
-        rho=workspace[self.inputs[0]],
-        sigma=workspace[self.inputs[1]],
-        beta=workspace[self._bound_parameters[0]],
-        gamma=workspace[self._bound_parameters[1]],
-        use_jax=use_jax)
-
-  def __str__(self):
-    return (f'{self.output} = PBECInstruction({self.inputs[0]}, '
-            f'{self.inputs[1]}; {self._bound_parameters[0]}, '
-            f'{self._bound_parameters[1]})')
 
 
 ####################
