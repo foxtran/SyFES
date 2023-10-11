@@ -17,7 +17,7 @@
 
 from absl.testing import absltest
 
-from symbolic_functionals.syfes.symbolic import graphviz
+from syfes.symbolic import graphviz
 
 
 class GraphvizTest(absltest.TestCase):

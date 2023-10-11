@@ -17,7 +17,7 @@
 
 import graphviz
 
-from symbolic_functionals.syfes.symbolic import instructions
+from syfes.symbolic import instructions
 
 
 INSTRUCTION_LABEL = {
