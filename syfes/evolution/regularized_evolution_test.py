@@ -22,7 +22,7 @@ from unittest import mock
 from absl.testing import absltest
 from absl.testing import parameterized
 
-from symbolic_functionals.syfes.evolution import regularized_evolution
+from syfes.evolution import regularized_evolution
 
 
 class IndividualTest(absltest.TestCase):
