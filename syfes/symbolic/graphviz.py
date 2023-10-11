@@ -36,10 +36,6 @@ INSTRUCTION_LABEL = {
     'MultiplicationAdditionInstruction': '+=a*b',
     'DivisionInstruction': 'a/b',
     'UTransformInstruction': 'UTransform',
-    'PBEXInstruction': 'PBEX',
-    'PBECInstruction': 'PBEC',
-    'RPBEXInstruction': 'RPBEX',
-    'B88XInstruction': 'B88X',
 }
 
 
