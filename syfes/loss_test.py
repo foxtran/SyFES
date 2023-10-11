@@ -26,6 +26,17 @@ from symbolic_functionals.syfes import loss
 class DatasetTest(parameterized.TestCase):
 
   @parameterized.parameters(False, True)
+  def test_root_mean_square_deviation(self, use_jax):
+    y_pred = np.random.rand(10)
+    y_true = np.random.rand(10)
+
+    np.testing.assert_almost_equal(
+        loss.root_mean_square_deviation(
+            y_pred, y_true, use_jax=use_jax),
+        np.sqrt(
+            metrics.mean_squared_error(y_pred, y_true))
+
+  @parameterized.parameters(False, True)
   def test_weighted_root_mean_square_deviation(self, use_jax):
     y_pred = np.random.rand(10)
     y_true = np.random.rand(10)

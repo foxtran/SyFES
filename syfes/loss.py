@@ -17,6 +17,23 @@
 import jax.numpy as jnp
 import numpy as onp
 
+def root_mean_square_deviation(y_pred, y_true, weights, use_jax=True):
+  """Computes root mean square deviation (RMSD) between two arrays.
+
+  WRMSD = sqrt{1 / num_samples * sum_i [(y_pred_i - y_true_i)^2]}
+
+  Args:
+    y_pred: Float numpy array, the predicted values.
+    y_true: Float numpy array, the true values.
+    use_jax: Boolean, if True, use jax.numpy for calculations, otherwise use
+      numpy.
+
+  Returns:
+    Float, the RMSD between y_pred and y_true.
+  """
+  np = jnp if use_jax else onp
+  return np.sqrt(np.average((y_pred - y_true)**2))
+
 
 def weighted_root_mean_square_deviation(y_pred, y_true, weights, use_jax=True):
   """Computes weighted root mean square deviation (WRMSD) between two arrays.
