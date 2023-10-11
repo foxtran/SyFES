@@ -20,7 +20,7 @@ from absl.testing import parameterized
 import numpy as np
 from sklearn import metrics
 
-from symbolic_functionals.syfes import loss
+from syfes import loss
 
 
 class DatasetTest(parameterized.TestCase):
@@ -34,7 +34,7 @@ class DatasetTest(parameterized.TestCase):
         loss.root_mean_square_deviation(
             y_pred, y_true, use_jax=use_jax),
         np.sqrt(
-            metrics.mean_squared_error(y_pred, y_true))
+            metrics.mean_squared_error(y_pred, y_true)))
 
   @parameterized.parameters(False, True)
   def test_weighted_root_mean_square_deviation(self, use_jax):

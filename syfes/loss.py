@@ -17,7 +17,7 @@
 import jax.numpy as jnp
 import numpy as onp
 
-def root_mean_square_deviation(y_pred, y_true, weights, use_jax=True):
+def root_mean_square_deviation(y_pred, y_true, use_jax=True):
   """Computes root mean square deviation (RMSD) between two arrays.
 
   WRMSD = sqrt{1 / num_samples * sum_i [(y_pred_i - y_true_i)^2]}
